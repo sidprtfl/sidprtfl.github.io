@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>[Your Name] | [Your Title]</title>
+<meta name="description" content="[One-sentence description of you and your work.]">
+
+<!--
+  HOW TO EDIT
+  1. Search for square brackets [like this] and replace them with your info.
+  2. Put your resume PDF in the same repo and name it resume.pdf (or change the href below).
+  3. Copy/paste any <article class="entry">, <article class="project">, or <li> to add more.
+  4. Delete any section you don't need (also remove its link in the <nav>).
+-->
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --bg: #f4f6f8;
+    --panel: #ffffff;
+    --ink: #17222d;
+    --muted: #55677a;
+    --line: #d7dee6;
+    --accent: #1b5e8c;
+    --accent-ink: #ffffff;
+    --tag-bg: #e6eef5;
+    --display: "Instrument Serif", Georgia, "Times New Roman", serif;
+    --body: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #10161d;
+      --panel: #17202a;
+      --ink: #e6edf3;
+      --muted: #96a7b8;
+      --line: #2a3643;
+      --accent: #6db3e0;
+      --accent-ink: #0c1218;
+      --tag-bg: #223140;
+    }
+  }
+
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font: 400 1rem/1.65 var(--body);
+    -webkit-font-smoothing: antialiased;
+  }
+  a { color: var(--accent); text-underline-offset: 3px; }
+  a:hover { text-decoration-thickness: 2px; }
+  a:focus-visible, .button:focus-visible {
+    outline: 3px solid var(--accent);
+    outline-offset: 3px;
+    border-radius: 3px;
+  }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+
+  /* ---------- Layout ---------- */
+  .page {
+    max-width: 1120px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+    display: grid;
+    grid-template-columns: 280px minmax(0, 1fr);
+    gap: 4rem;
+  }
+  aside {
+    position: sticky;
+    top: 0;
+    align-self: start;
+    height: 100vh;
+    padding: 4rem 0 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.75rem;
+  }
+  main { padding: 4rem 0 5rem; }
+
+  /* ---------- Sidebar ---------- */
+  .name {
+    font: 400 3rem/1 var(--display);
+    margin: 0;
+    letter-spacing: -0.01em;
+  }
+  .role { margin: .5rem 0 0; color: var(--muted); }
+  .where { margin: .25rem 0 0; color: var(--muted); font-size: .9rem; }
+
+  nav ul { list-style: none; margin: 0; padding: 0; display: grid; gap: .35rem; }
+  nav a {
+    color: var(--muted);
+    text-decoration: none;
+    display: inline-block;
+    padding: .15rem 0 .15rem .9rem;
+    border-left: 2px solid var(--line);
+  }
+  nav a:hover, nav a:focus-visible { color: var(--ink); border-left-color: var(--accent); }
+
+  .button {
+    display: inline-block;
+    background: var(--accent);
+    color: var(--accent-ink);
+    font-weight: 600;
+    padding: .65rem 1.1rem;
+    border-radius: 6px;
+    text-decoration: none;
+  }
+  .button:hover { filter: brightness(1.1); }
+
+  .links { list-style: none; margin: 0; padding: 0; display: grid; gap: .3rem; font-size: .95rem; }
+  .sidebar-foot { margin-top: auto; }
+
+  /* ---------- Sections ---------- */
+  section { margin-bottom: 4.5rem; scroll-margin-top: 2rem; }
+  h2 {
+    font: 400 2.25rem/1.1 var(--display);
+    margin: 0 0 1.75rem;
+    padding-bottom: .6rem;
+    border-bottom: 1px solid var(--line);
+  }
+  h3 { font: 600 1.1rem/1.35 var(--body); margin: 0; }
+  p { margin: 0 0 1rem; max-width: 68ch; }
+  ul.bullets { margin: .5rem 0 0; padding-left: 1.2rem; max-width: 68ch; }
+  ul.bullets li { margin-bottom: .35rem; }
+
+  /* Experience: dates in a left column, since this is a real timeline */
+  .entry {
+    display: grid;
+    grid-template-columns: 9.5rem minmax(0, 1fr);
+    gap: 1.5rem;
+    padding-bottom: 2rem;
+    margin-bottom: 2rem;
+    border-bottom: 1px solid var(--line);
+  }
+  .entry:last-child { border-bottom: 0; margin-bottom: 0; padding-bottom: 0; }
+  .dates { color: var(--muted); font-size: .9rem; padding-top: .15rem; }
+  .org { color: var(--muted); margin: .1rem 0 .6rem; }
+
+  /* Projects: one panel each, with the title row doing the heavy lifting */
+  .project {
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 1.4rem 1.5rem;
+    margin-bottom: 1.25rem;
+  }
+  .project-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-bottom: .5rem;
+  }
+  .project-links { display: flex; gap: 1rem; font-size: .92rem; }
+  .tags { list-style: none; margin: 1rem 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: .4rem; }
+  .tags li {
+    background: var(--tag-bg);
+    border-radius: 4px;
+    padding: .1rem .55rem;
+    font-size: .82rem;
+  }
+
+  /* Skills */
+  .skills { display: grid; grid-template-columns: 9.5rem minmax(0, 1fr); gap: .9rem 1.5rem; margin: 0; }
+  .skills dt { font-weight: 600; }
+  .skills dd { margin: 0; color: var(--muted); }
+
+  .plain-list { list-style: none; margin: 0; padding: 0; display: grid; gap: .9rem; }
+  .plain-list span { color: var(--muted); font-size: .92rem; }
+
+  footer { color: var(--muted); font-size: .85rem; }
+
+  /* ---------- Responsive ---------- */
+  @media (max-width: 860px) {
+    .page { grid-template-columns: 1fr; gap: 0; }
+    aside { position: static; height: auto; padding: 2.5rem 0 1rem; }
+    .sidebar-foot { margin-top: 0; }
+    nav ul { display: flex; flex-wrap: wrap; gap: .5rem 1.25rem; }
+    nav a { border-left: 0; padding: 0; border-bottom: 2px solid var(--line); }
+    nav a:hover, nav a:focus-visible { border-bottom-color: var(--accent); }
+    main { padding-top: 2rem; }
+  }
+  @media (max-width: 560px) {
+    .entry, .skills { grid-template-columns: 1fr; gap: .25rem; }
+    .skills dd { margin-bottom: .75rem; }
+    .name { font-size: 2.5rem; }
+  }
+  @media print {
+    aside { position: static; height: auto; }
+    nav, .button { display: none; }
+    body { background: #fff; }
+  }
+</style>
+</head>
+
+<body>
+<div class="page">
+
+  <!-- ===================== SIDEBAR ===================== -->
+  <aside>
+    <div>
+      <h1 class="name">[Your Name]</h1>
+      <p class="role">[Your title, e.g. Software Engineer]</p>
+      <p class="where">[City, State/Country]</p>
+    </div>
+
+    <nav aria-label="Sections">
+      <ul>
+        <li><a href="#about">About</a></li>
+        <li><a href="#experience">Experience</a></li>
+        <li><a href="#projects">Projects</a></li>
+        <li><a href="#education">Education</a></li>
+        <li><a href="#skills">Skills</a></li>
+        <li><a href="#extras">Awards and certifications</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </nav>
+
+    <div class="sidebar-foot">
+      <p><a class="button" href="resume.pdf" target="_blank" rel="noopener">Download resume (PDF)</a></p>
+      <ul class="links">
+        <li><a href="https://github.com/[username]">GitHub</a></li>
+        <li><a href="https://www.linkedin.com/in/[username]">LinkedIn</a></li>
+        <li><a href="mailto:[you@example.com]">[you@example.com]</a></li>
+      </ul>
+    </div>
+  </aside>
+
+  <!-- ===================== MAIN ===================== -->
+  <main>
+
+    <!-- ABOUT -->
+    <section id="about">
+      <h2>About</h2>
+      <p>[Two or three sentences: who you are, what you do, and what you're looking for. Example: I'm a computer science student who builds web apps and data tools. I enjoy turning messy problems into simple, reliable software.]</p>
+      <p>[Optional: a sentence about what you're working on now or what interests you outside work.]</p>
+    </section>
+
+    <!-- EXPERIENCE -->
+    <section id="experience">
+      <h2>Experience</h2>
+
+      <article class="entry">
+        <div class="dates">[Mon YYYY] to<br>[Present]</div>
+        <div>
+          <h3>[Job Title]</h3>
+          <p class="org">[Company], [City]</p>
+          <ul class="bullets">
+            <li>[Accomplishment with a result, e.g. Cut report generation time from 10 minutes to 40 seconds by rewriting the query layer.]</li>
+            <li>[Accomplishment, e.g. Led a team of 4 to ship a customer dashboard used by 300+ people.]</li>
+            <li>[Accomplishment or responsibility.]</li>
+          </ul>
+          <ul class="tags">
+            <li>[Python]</li><li>[React]</li><li>[SQL]</li>
+          </ul>
+        </div>
+      </article>
+
+      <article class="entry">
+        <div class="dates">[Mon YYYY] to<br>[Mon YYYY]</div>
+        <div>
+          <h3>[Job Title]</h3>
+          <p class="org">[Company], [City]</p>
+          <ul class="bullets">
+            <li>[Accomplishment.]</li>
+            <li>[Accomplishment.]</li>
+          </ul>
+          <ul class="tags">
+            <li>[Tool]</li><li>[Tool]</li>
+          </ul>
+        </div>
+      </article>
+
+      <article class="entry">
+        <div class="dates">[Mon YYYY] to<br>[Mon YYYY]</div>
+        <div>
+          <h3>[Internship / Part-time / Volunteer Role]</h3>
+          <p class="org">[Organization], [City]</p>
+          <ul class="bullets">
+            <li>[Accomplishment.]</li>
+          </ul>
+        </div>
+      </article>
+    </section>
+
+    <!-- PROJECTS -->
+    <section id="projects">
+      <h2>Projects</h2>
+
+      <article class="project">
+        <div class="project-head">
+          <h3>[Project Name]</h3>
+          <div class="project-links">
+            <a href="https://github.com/[username]/[repo]">Code</a>
+            <a href="https://[live-demo-url]">Live demo</a>
+          </div>
+        </div>
+        <p>[One or two sentences on what it does and who it's for.]</p>
+        <ul class="bullets">
+          <li>[What you built or solved, e.g. Designed a REST API handling 1,000 requests per minute.]</li>
+          <li>[A result, e.g. 200+ GitHub stars, or used by 50 classmates.]</li>
+          <li>[A challenge you overcame.]</li>
+        </ul>
+        <ul class="tags">
+          <li>[Node.js]</li><li>[PostgreSQL]</li><li>[Docker]</li>
+        </ul>
+      </article>
+
+      <article class="project">
+        <div class="project-head">
+          <h3>[Project Name]</h3>
+          <div class="project-links">
+            <a href="https://github.com/[username]/[repo]">Code</a>
+          </div>
+        </div>
+        <p>[What it does.]</p>
+        <ul class="bullets">
+          <li>[Key feature or outcome.]</li>
+          <li>[Key feature or outcome.]</li>
+        </ul>
+        <ul class="tags">
+          <li>[Tech]</li><li>[Tech]</li>
+        </ul>
+      </article>
+
+      <article class="project">
+        <div class="project-head">
+          <h3>[Project Name]</h3>
+          <div class="project-links">
+            <a href="https://github.com/[username]/[repo]">Code</a>
+          </div>
+        </div>
+        <p>[What it does.]</p>
+        <ul class="tags">
+          <li>[Tech]</li><li>[Tech]</li>
+        </ul>
+      </article>
+    </section>
+
+    <!-- EDUCATION -->
+    <section id="education">
+      <h2>Education</h2>
+
+      <article class="entry">
+        <div class="dates">[YYYY] to<br>[YYYY]</div>
+        <div>
+          <h3>[Degree, e.g. B.S. in Computer Science]</h3>
+          <p class="org">[University], [City]</p>
+          <ul class="bullets">
+            <li>GPA: [3.x / 4.0]. [Honors, e.g. Dean's List 2023-2025.]</li>
+            <li>Relevant coursework: [Data Structures, Algorithms, Databases, Operating Systems.]</li>
+            <li>[Clubs, leadership, or research.]</li>
+          </ul>
+        </div>
+      </article>
+    </section>
+
+    <!-- SKILLS -->
+    <section id="skills">
+      <h2>Skills</h2>
+      <dl class="skills">
+        <dt>Languages</dt>
+        <dd>[Python, JavaScript, TypeScript, Java, SQL]</dd>
+        <dt>Frameworks</dt>
+        <dd>[React, Node.js, Flask, Django]</dd>
+        <dt>Tools</dt>
+        <dd>[Git, Docker, Linux, VS Code, Figma]</dd>
+        <dt>Data and cloud</dt>
+        <dd>[PostgreSQL, MongoDB, AWS, pandas]</dd>
+        <dt>Other</dt>
+        <dd>[Public speaking, technical writing, mentoring, Spanish (conversational)]</dd>
+      </dl>
+    </section>
+
+    <!-- AWARDS / CERTIFICATIONS / OTHER -->
+    <section id="extras">
+      <h2>Awards and certifications</h2>
+      <ul class="plain-list">
+        <li>
+          <strong>[Certification or award name]</strong><br>
+          <span>[Issuer], [Year]. [Optional link or one line of context.]</span>
+        </li>
+        <li>
+          <strong>[Publication, talk, or hackathon result]</strong><br>
+          <span>[Venue], [Year].</span>
+        </li>
+        <li>
+          <strong>[Volunteering or leadership role]</strong><br>
+          <span>[Organization], [Years].</span>
+        </li>
+      </ul>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact">
+      <h2>Contact</h2>
+      <p>[Short line on what you're open to, e.g. I'm looking for software engineering roles starting [Month Year]. The best way to reach me is by email.]</p>
+      <p>
+        <a href="mailto:[you@example.com]">[you@example.com]</a><br>
+        <a href="https://www.linkedin.com/in/[username]">linkedin.com/in/[username]</a><br>
+        <a href="https://github.com/[username]">github.com/[username]</a>
+      </p>
+    </section>
+
+    <footer>
+      <p>&copy; <span id="year">2026</span> [Your Name]. Last updated [Month YYYY].</p>
+    </footer>
+
+  </main>
+</div>
+
+<script>
+  document.getElementById("year").textContent = new Date().getFullYear();
+</script>
+</body>
+</html>
